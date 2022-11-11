@@ -17,47 +17,62 @@ if (!isset($_SESSION["username"])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Deped Laguna</title>
     <?php include "../html/favicon.php" ?>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../assets/css/logo.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+
+    <style>
+        nav {
+            width: 256px;
+            height: 100vh;
+        }
+
+        .nav-content ul li a {
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px 0;
+        }
+
+        .nav-content ul li:hover {
+            background-color: black;
+            color: white;
+            border-radius: 10px;
+        }
+
+        .nav-content ul li a {
+            color: inherit;
+
+        }
+    </style>
 </head>
 
 <body>
-    <?php include "../html/nav.php" ?>
-    <!-- nav -->
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
-                <ul class="navbar-nav d-flex justify-content-center">
-                    <li class="nav-item">
-                        <a class="nav-link" href="dashboard.php">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="pending.php">Pending</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="history.php">History</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../controller/logout.php">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- nav end -->
-
     <div class="container-fluid">
-        <div class="row">
 
-            <nav class="col col-2">
-                <h1>hello world</h1>
+        <div class="row">
+            <nav class="col col-2 border">
+                <div class="nav-head mx-2 d-flex align-items-center">
+                    <img src="../assets/logo1.png" alt="logo" style="height: 71px;">
+                    <h3 class="ms-2 d-block">DEPED Laguna</h3>
+                </div>
+                <div class="nav-content">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="dashboard.php" class="mx-2"><i class="fa-solid fa-gauge"></i> DASHBOARD</a>
+                        </li>
+                        <li>
+                            <a href="pending.php" class="mx-2"><i class="fa-solid fa-pen-to-square"></i> PENDING</a>
+                        </li>
+                        <li>
+                            <a href="history.php" class="mx-2"><i class="fa-solid fa-book"></i> HISTORY</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nav-foot">
+
+                </div>
             </nav>
 
             <main class=" col col-10">
@@ -84,7 +99,7 @@ if (!isset($_SESSION["username"])) {
 
                         <tr>
                             <td>
-                                <<= $num ?>
+                                <?= $num ?>
                             </td>
                             <td>
                                 <?= $row['firstname'] . " " . $row['lastname'] ?>
