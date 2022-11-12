@@ -30,7 +30,7 @@ if(!isset($_SESSION["username"])){
         <nav>
             <ul>
                 <li class="mb-3">
-                    <a href="dashboard.php">dashboard</a>
+                    <a href="dashboard.php" class="">dashboard</a>
                 </li>
                 <li class="mb-3">
                     <a href="pending.php">pending</a>
@@ -45,10 +45,6 @@ if(!isset($_SESSION["username"])){
         </nav>
         <main>
             <div class="card text-center mb-5">
-                <div class="card-body">
-                    <h1>Logged in as <?= $_SESSION['username']?></h1>
-
-                </div>
             </div>
             <div class="row mb-5">
                 <div class="col">

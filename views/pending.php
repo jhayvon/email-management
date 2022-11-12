@@ -25,25 +25,12 @@ if (!isset($_SESSION["username"])) {
 
     <style>
         nav {
-            width: 256px;
             height: 100vh;
+            display: fixed;
         }
-
-        .nav-content ul li a {
+        a {
             text-decoration: none;
-            display: inline-block;
-            margin: 10px 0;
-        }
-
-        .nav-content ul li:hover {
-            background-color: black;
-            color: white;
-            border-radius: 10px;
-        }
-
-        .nav-content ul li a {
-            color: inherit;
-
+            color: black;
         }
     </style>
 </head>
@@ -53,25 +40,40 @@ if (!isset($_SESSION["username"])) {
 
         <div class="row">
             <nav class="col col-2 border">
-                <div class="nav-head mx-2 d-flex align-items-center">
-                    <img src="../assets/logo1.png" alt="logo" style="height: 71px;">
-                    <h3 class="ms-2 d-block">DEPED Laguna</h3>
+                <div class="text-center my-4">
+                    <img src="../assets/logo1.png" alt="logo" height="60" width="60">
+                    <p class="fs-5">deped laguna</p>
                 </div>
-                <div class="nav-content">
+                <hr>
+                <div class="nav-content my-4">
                     <ul class="list-unstyled">
                         <li>
-                            <a href="dashboard.php" class="mx-2"><i class="fa-solid fa-gauge"></i> DASHBOARD</a>
+                            <a href="dashboard.php" class="d-block ">
+                                <p class="fs-5 "><i class="fa-solid fa-gauge me-2 "></i>dashboard</p>
+                            </a>
                         </li>
                         <li>
-                            <a href="pending.php" class="mx-2"><i class="fa-solid fa-pen-to-square"></i> PENDING</a>
+                            <a href="dashboard.php" class="d-block ">
+                                <p class="fs-5 mx-auto"><i class="fa-solid fa-pen-to-square me-2"></i>pending</p>
+                            </a>
                         </li>
                         <li>
-                            <a href="history.php" class="mx-2"><i class="fa-solid fa-book"></i> HISTORY</a>
+                            <a href="dashboard.php" class="d-block ">
+                                <p class="fs-5 "><i class="fa-solid fa-book me-2"></i>history</p>
+                            </a>
                         </li>
                     </ul>
                 </div>
+                <hr>
                 <div class="nav-foot">
-
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="dashboard.php" class="d-block">
+                                <p class="fs-5 "><i class="fa-solid fa-right-from-bracket"></i> Logout</p>
+                            </a>
+                        </li>
+                        </li>
+                    </ul>
                 </div>
             </nav>
 
@@ -175,6 +177,8 @@ if (!isset($_SESSION["username"])) {
                     </div>
                 </div>
             </div>
+
+            <!-- <div style="height: 100vh;"> hello world</div> -->
 
             <!-- Modal -->
             <div class="modal fade" id="replyModal" style="overflow: wrap;" tabindex="-1"

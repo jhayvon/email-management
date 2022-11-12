@@ -30,14 +30,13 @@ if(isset($_SESSION["username"])){
   <?php include "../html/nav.php"?>
   <main>
     <div class="form-container border">
-      <img src="../assets/avatar.jpg" class="pic" alt="">
-      <h1>Admin Portal</h1>
-      <!-- action="../controller/login_function.php" -->
+      <div class="text-center">
+        <img src="../assets/avatar.jpg" class="rounded" height="100" width="100" alt="">
+      </div>
+      <p class="fs-4 text-center">Admin Portal</p>
+
       <form method="post" id="loginForm">
-        <!-- <div id="alert" class="alert alert-success alert-dismissible mb-3 fade show d-none" role="alert">
-          <strong><span id="message"></span></strong>
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div> -->
+
         <div class="my-3">
           <label for="username">Username</label>
           <input id="username" name="username" type="text" class="form-control" placeholder="Username" autocomplete="off" required>

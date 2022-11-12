@@ -18,23 +18,21 @@
 <body>
     <nav class="navbar bg-light">
         <div class="container-fluid d-flex justify-content-start">
-            <a href="index.php"><img src="assets/logo1.png" id="logo" alt="logo"></a>
-            <h1>
-                <div class="navbar-brand mx-3" href="index.php">DEPED LAGUNA</a>
-            </h1>
+            <a href="index.php"><img src="assets/logo1.png" width="60" height="60" alt="logo"></a>
+            <div class="navbar-brand mx-3 fs-4" href="index.php">DEPED LAGUNA</a>
         </div>
     </nav>
     <main>
         <div class="btn-container border mt-3">
             <div class="mb-3">
-                <h5>REQUEST EMAIL ACCOUNT</h5>
-                <a href="views/req_email.php" class="btn btn-large btn-primary index-btn">
+                <p class="fs-4">REQUEST EMAIL ACCOUNT</p>
+                <a href="views/req_email.php" class="btn btn-large btn-primary index-btn fs-6">
                     <i class="fa-solid fa-arrow-right"></i> Request
                 </a>
             </div>
             <div class="mb-3">
-                <h5>ADMIN PORTAL</h5>
-                <a aria-disabled="true" href="views/login.php" class="btn btn-large btn-primary index-btn">
+                <p class="fs-4">ADMIN PORTAL</p>
+                <a aria-disabled="true" href="views/login.php" class="btn btn-large btn-primary index-btn fs-6">
                     <i class="fa-solid fa-lock"></i> Login
                 </a>
             </div>
