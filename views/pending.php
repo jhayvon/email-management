@@ -38,6 +38,8 @@ if (!isset($_SESSION["username"])) {
 <body>
     <div class="container-fluid">
 
+        
+
         <div class="row">
             <nav class="col col-2 border">
                 <div class="text-center my-4">
@@ -49,17 +51,26 @@ if (!isset($_SESSION["username"])) {
                     <ul class="list-unstyled">
                         <li>
                             <a href="dashboard.php" class="d-block ">
-                                <p class="fs-5 "><i class="fa-solid fa-gauge me-2 "></i>dashboard</p>
+                                <p class="fs-5 ">
+                                    <i class="fa-solid fa-gauge me-2"></i>
+                                    <span class="d-none d-sm-inline-block">dashboard</span>
+                                </p>
                             </a>
                         </li>
                         <li>
                             <a href="dashboard.php" class="d-block ">
-                                <p class="fs-5 mx-auto"><i class="fa-solid fa-pen-to-square me-2"></i>pending</p>
+                                <p class="fs-5 mx-auto">
+                                    <i class="fa-solid fa-pen-to-square me-2"></i>
+                                    <span class="d-none d-sm-inline-block">pending</span>
+                                </p>
                             </a>
                         </li>
                         <li>
                             <a href="dashboard.php" class="d-block ">
-                                <p class="fs-5 "><i class="fa-solid fa-book me-2"></i>history</p>
+                                <p class="fs-5 ">
+                                    <i class="fa-solid fa-book me-2"></i>
+                                    <span class="d-none d-sm-inline-block">history</span>
+                                </p>
                             </a>
                         </li>
                     </ul>
@@ -69,7 +80,10 @@ if (!isset($_SESSION["username"])) {
                     <ul class="list-unstyled">
                         <li>
                             <a href="dashboard.php" class="d-block">
-                                <p class="fs-5 "><i class="fa-solid fa-right-from-bracket"></i> Logout</p>
+                                <p class="fs-5 ">
+                                    <i class="fa-solid fa-right-from-bracket"></i> 
+                                    <span class="d-none d-sm-inline-block">logout</span>
+                            </p>
                             </a>
                         </li>
                         </li>
@@ -78,6 +92,43 @@ if (!isset($_SESSION["username"])) {
             </nav>
 
             <main class=" col col-10">
+
+                <div class="row mb-5 my-3">
+                    <div class="col col-sm-4">
+                        <div class="card text-center text-white bg-primary" style="width: 18rem;">
+                        <div class="card-body">
+                            <!-- <h5 class="card-title">Pending</h5> -->
+                            <p class="card-title fs-6">Pending</p>
+
+                            <p class="card-text fs-5 ">
+                                37
+                            </p>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col col-sm-4">
+                        <div class="card text-center text-white bg-primary" style="width: 18rem;">
+                        <div class="card-body">
+                            <p class="card-title fs-6">this approved</p>
+                            <p class="card-text fs-5 ">34</p>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="col col-sm-4">
+                        <div class="card text-center text-white bg-primary" style="width: 18rem;">
+                        <div class="card-body">
+                            <!-- <h5 class="card-title">Overall Approved</h5> -->
+                            <p class="card-title fs-6">Approved</p>
+
+                            
+                            <p class="card-text fs-5 ">34</p>
+                            
+                                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
                 <table id="example">
                     <thead>
                         <th>#</th>
@@ -144,6 +195,7 @@ if (!isset($_SESSION["username"])) {
 
                     </tfoot>
                 </table>
+
             </main>
 
             <!-- view all Modal -->
