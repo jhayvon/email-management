@@ -103,7 +103,14 @@ if (!isset($_SESSION["username"])) {
                 <nav class="navbar bg-light" style="height: 80px;">
                     <div class="container-fluid position-relative">
                         <span class="position-absolute end-0 mx-3 fs-5"><i class="fa-solid fa-user"></i>
-                            von</span>
+                            <? 
+                            
+                            if (isset($_SESSION["username"])) {
+                                $_SESSION["username"];
+                            }
+                            
+                            ?>
+                        </span>
                     </div>
                 </nav>
                 <div class="row">
