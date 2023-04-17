@@ -1,0 +1,95 @@
+                                <!-- Create -->
+                                <td>
+                                    <?php
+                                    
+                                        $queryCreate = "SELECT COUNT(request) FROM `request` WHERE (request = 'Create') AND (`created_at` BETWEEN '2023-01-01 00:00:00' AND '2023-01-31 23:59:59') AND (`status` = 'Approved')";
+
+                                        $create = mysqli_query($conn, $queryCreate);
+
+                                        $cc = mysqli_fetch_array($create);
+                                        echo $cc[0];
+                                    ?>
+
+                                </td>
+                                
+                                <!-- Suspend   -->
+                                <td>
+                                    <?php
+                                        $querySus = "SELECT COUNT(request) FROM `request` WHERE (request = 'Suspend') AND (`created_at` BETWEEN '2023-01-01 00:00:00' AND '2023-01-31 23:59:59') AND (`status` = 'Approved')";
+                                        
+                                        $susp = mysqli_query($conn, $querySus);
+
+                                        $sus = mysqli_fetch_array($susp);
+                                        echo $sus[0];
+                                    ?>
+                                </td>
+
+
+                                <!-- Delete -->
+                                <td>
+                                    <?php
+                                        $querydel = "SELECT COUNT(request) FROM `request` WHERE (request = 'Delete') AND (`created_at` BETWEEN '2023-01-01 00:00:00' AND '2023-01-31 23:59:59') AND (`status` = 'Approved')";
+                                        
+                                        $delete = mysqli_query($conn, $querydel);
+
+                                        $dele = mysqli_fetch_array($delete);
+                                        echo $dele[0];
+                                    ?>
+
+
+                                </td>
+
+                                 <!-- Reset Password    -->
+                                <td>
+                                    <?php
+                                        $queryRp = "SELECT COUNT(request) FROM `request` WHERE (request = 'Reset Password') AND (`created_at` BETWEEN '2023-01-01 00:00:00' AND '2023-01-31 23:59:59') AND (`status` = 'Approved')";
+                                        
+                                        $resPas = mysqli_query($conn, $queryRp);
+
+                                        $rs = mysqli_fetch_array($resPas);
+                                        echo $rs[0];
+                                    ?>
+
+                                </td>
+
+
+                                <!-- Transfer -->
+                                <td>
+
+                                    <?php
+
+                                        $queryTrans = "SELECT COUNT(request) FROM `request` WHERE (request = 'Transfer') AND (`created_at` BETWEEN '2023-01-01 00:00:00' AND '2023-01-31 23:59:59') AND (`status` = 'Approved')";
+                                        
+                                        $trans = mysqli_query($conn, $queryTrans);
+
+                                        $tr = mysqli_fetch_array($trans);
+                                        echo $tr[0];
+                                    ?>
+
+                                </td>
+
+                             <!-- Change of Status    -->
+                             <td>
+
+                                    <?php
+                                        $queryCoS = "SELECT COUNT(request) FROM `request` WHERE (request = 'Change of Status') AND (`created_at` BETWEEN '2023-01-01 00:00:00' AND '2023-01-31 23:59:59') AND (`status` = 'Approved')";
+                                        
+                                        $Change = mysqli_query($conn, $queryCoS);
+
+                                        $cos = mysqli_fetch_array($Change);
+                                        echo $cos[0];
+                                    ?>
+                                </td>
+
+
+                            <!-- Total -->
+                             <td>
+                                    <?php
+                                        $queryTotal = "SELECT COUNT(request) FROM `request` WHERE (`status` = 'Approved') AND (`created_at` BETWEEN '2023-01-01 00:00:00' AND '2023-01-31 23:59:59') ";
+                                        
+                                        $jTotal = mysqli_query($conn, $queryTotal);
+
+                                        $jt = mysqli_fetch_array($jTotal);
+                                        echo $jt[0];
+                                    ?>
+                                </td>

@@ -3,7 +3,8 @@
 include "../models/conn.php";
 
 // get variables
-if(isset($_POST['add'])){
+
+if (isset($_POST['add'])) {
     $schoolId = mysqli_real_escape_string($conn, $_POST['schoolId']);
     $schoolName = mysqli_real_escape_string($conn, $_POST['schoolName']);
     $district = mysqli_real_escape_string($conn, $_POST['district']);
@@ -15,16 +16,17 @@ if(isset($_POST['add'])){
     $lastname = mysqli_real_escape_string($conn, $_POST['lastname']);
     $personalEmail = mysqli_real_escape_string($conn, $_POST['personalEmail']);
     $depedEmail = mysqli_real_escape_string($conn, $_POST['depedEmail']);
-    $password = $lastname."1234";
+    $password = $lastname . "1234";
     $phoneNumber = mysqli_real_escape_string($conn, $_POST['phoneNumber']);
     $target_dir = "../uploads/";
     $appointment = $target_dir . basename($_FILES["appointment"]["name"]);
+    $diviTransfer = mysqli_real_escape_string($conn, $_POST['diviTransfer']);
     $requestType = mysqli_real_escape_string($conn, $_POST['requestType']);
 
-    
+
     // create query
     $query = "INSERT INTO request (school_id,
-                                   school_name,	
+                                   school_name, 
                                    district, 
                                    school_head, 
                                    unit_section, 
@@ -37,7 +39,8 @@ if(isset($_POST['add'])){
                                    password,
                                    phone_number, 
                                    request, 
-                                   appointment) 
+                                   appointment,
+                                   division_transfer) 
     VALUES ('$schoolId',
             '$schoolName',
             '$district',
@@ -52,19 +55,22 @@ if(isset($_POST['add'])){
             '$password',
             '$phoneNumber',
             '$requestType',
-            '$appointment')";
+            '$appointment',
+            '$diviTransfer')";
     $result = mysqli_query($conn, $query);
 
-    if($result){
+
+    if ($result) {
         // uplaod file to upload dir
         move_uploaded_file($_FILES["appointment"]["tmp_name"], $appointment);
+
         $res = [
             'status' => 200,
             'message' => "insert successful",
         ];
         echo json_encode($res);
         return;
-    }else{
+    } else {
         $res = [
             'status' => 400,
             'message' => "insert failed",
@@ -74,3 +80,4 @@ if(isset($_POST['add'])){
     }
 }
 
+?>

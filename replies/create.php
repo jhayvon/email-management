@@ -2,24 +2,37 @@
 
 include "../models/conn.php";
 
-if(isset($_POST["id"])){
+if (isset($_POST["id"])) {
     $id = $_POST["id"];
     $query = "SELECT * FROM `request` WHERE id='$id'";
     $result = mysqli_query($conn, $query);
 
-    if(mysqli_num_rows($result) > 0){
-        foreach($result as $row){
-            $res = [
-                "status" => 200,
-                "message" => "select success",
-                "username" => $row['deped_email'],
-                "password" => $row['password']
-            ];
-            echo json_encode($res);
-            return;
-        }
+    $qEmail = "SELECT `deped_email` from request WHERE `id` = '$id';";
+    $eRes = mysqli_query($conn, $qEmail);
+    
+
+    // if(isset($_POST['depedEmail'])){
+    //     $depedEmail = $_POST['depedEmail'];
+    //   }?
+    //isset($_POST['depedEmail'])
+    //$row['firstname'] . "." . $row['lastname'] . "@deped.gov.ph"
+
+
+    if (mysqli_num_rows($result) > 0) {
+            foreach ($result as $row) {
+                $res = [
+                    "status" => 200,
+                    "message" => "select success",
+                    "username" => $row['deped_email'],
+                    "password" => $row['password']
+                ];
+                echo json_encode($res);
+                return;
+            }
     }
 }
+
+
 
 ?>
 

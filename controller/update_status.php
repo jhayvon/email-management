@@ -6,7 +6,7 @@ include "../models/conn.php";
 if(isset($_POST['id'])){
     $id = mysqli_real_escape_string($conn, $_POST['id']);
     
-    $query = "UPDATE accounts SET status='approved' WHERE id='$id'";
+    $query = "UPDATE accounts SET status='Approved' WHERE id='$id'";
     $result = mysqli_query($conn, $query);
 
     if($result){

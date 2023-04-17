@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 session_start();
 
-if(!isset($_SESSION["username"])){
+if (!isset($_SESSION["username"])) {
     header("Location: login.php");
     die();
 }
@@ -15,136 +15,518 @@ if(!isset($_SESSION["username"])){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deped Laguna</title>
-  <?php include "../html/favicon.php" ?>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <title>History - Deped Laguna</title>
+    <?php include "../html/favicon.php" ?>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="../assets/css/logo.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+
+    <style>
+        nav {
+            /* background-color: olive; */
+            height: 100vh;
+            min-width: 80px;
+            display: inline-block;
+        }
+
+        .navbar {
+            min-width: 80px;
+        }
+
+        main {
+            width: 90%;
+            height: 100vh;
+            display: inline-block;
+        }
+
+        div .borderIn {
+            border-radius: 5px;
+            border-style: none;
+        }
+
+        ul li a {
+            height: 60px;
+            /* background-color: aqua; */
+            display: block;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #000;
+        }
+
+        ul li a.active {
+            background-color: #0a5fc0;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .card {
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body {
+            width: 100%;
+
+        }
+
+        table .id {
+            background-color: #0a5fc0;
+        }
+
+        .table>thead {
+            background-color: #0a5fc0;
+            text-align: center;
+            color: white;
+
+        }
+
+        .tfoot {
+            background-color: #0a5fc0;
+            text-align: center;
+            color: white;
+        }
+
+        button {
+            border: 5px;
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #0a5fc2;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .button:hover {
+            background-color: #0a5fc0;
+            color: white;
+        }
+
+        .btnapprove {
+            background-color: green;
+        }
+
+        .btnReply {
+            background-color: darkcyan;
+        }
+
+        .btnView {
+            background-color: blue;
+        }
+
+        .btnClose {
+            background-color: red;
+            color: white;
+        }
+
+        span .id {
+            align-items: center;
+
+            display: inline-block;
+        }
+    </style>
 </head>
 
 <body>
-    <?php include "../html/nav.php"?>
-    <div class="container">
-        <nav>
-            <ul>
-                <li class="mb-3">
-                    <a href="dashboard.php">dashboard</a>
-                </li>
-                <li class="mb-3">
-                    <a href="pending.php">pending</a>
-                </li>
-                <li class="mb-3">
-                    <a href="history.php">history</a>
-                </li>
-                <li class="mb-3">
-                    <a href="../controller/logout.php">logout</a>
-                </li>
-            </ul>
-        </nav>
-        <main>
-            <table id="example">
-                <thead>
-                    <th>#</th>
-                    <th>name</th>
-                    <th>email</th>
-                    <th>request</th>
-                    <th>action</th>
-                    <th>approved at</th>
-                    <th>approved by</th>
-                </thead>
-                <tbody>
-                <?php
-                include "../models/conn.php";
 
-                $query = "SELECT * FROM `request` WHERE status='approved'";
-                $result = mysqli_query($conn, $query);
-                $num = 1;
-                if(mysqli_num_rows($result)>0){
-                    foreach($result as $row){
-                        ?>
-                        
-                        <tr>
-                            <td><?= $num ?></td>
-                            <td><?= $row['firstname']." ".$row['lastname'] ?></td>
-                            <td>
-                                <a href="<?= $row['appointment'] ?>" target="_blank">view</a>
-                                
-                            </td>
-                            <td><?= $row['request'] ?></td>
-                            <td>
-                                <button value="<?= $row['id'] ?>" class="viewAll btn text-primary" type="button" data-bs-toggle="modal" data-bs-target="#viewAllModal">view</button>
-                            </td>
-                            <td><?= $row['updated_at'] ?></td>
-                            <td><?= $row['approved_by'] ?></td>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-2 border">
+                <nav class="d-flex flex-column justify-content-between side-bar">
+                    <ul class="list-unstyled">
+                        <div class="d-flex justify-content-center my-5">
+                            <a href="dashboard.php"> <img src="../assets/logo4.png" height="155" alt=""></a>
+                        </div>
 
-                        </tr>
- 
-                        <?php
-                        $num++;
-                    }
-                }
+                        <hr>
+
+                        <li>
+                            <a href="dashboard.php" class="nav-item">
+                                <span class="mx-3"><i class="fa-solid fa-gauge"></i> Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="pending.php" class="nav-item">
+                                <span class="mx-3"><i class="fa-solid fa-pen-to-square"></i> Pending</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="approve_track.php" class="nav-item">
+                                <span class="mx-3"><i class="fa-solid fa-calendar"></i> Summary Report</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="history.php" class="nav-item active">
+                                <span class="mx-3"><i class="fa-solid fa-book"></i> History</span>
+                            </a>
+                        </li>
 
 
-                ?>    
-                </tbody>
-                <tfoot>
-                    <th>#</th>
-                    <th>name</th>
-                    <th>email</th>
-                    <th>request</th>
-                    <th>action</th>
-                    <th>approved at</th>
-                    <th>approved by</th>
+                    </ul>
 
-                </tfoot>
-            </table>
-        </main>
+                    <ul class="list-unstyled">
+                        <hr>
+                        <li>
+                            <a href="../controller/logout.php" class="text-danger">
+                                <span class="ms-3"><i class="fa-solid fa-right-from-bracket"></i> Logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col borderIn">
+                <nav class="navbar" style="height: 80px;">
+                    <div class="container-fluid position-relative">
+                        <span class="position-absolute end-0 mx-3 fs-5"><i class="fa-solid fa-user"></i>
+                            <?php echo $_SESSION['username'] ?>
+                        </span>
+                    </div>
+                </nav>
+                <div class="my-3"></div>
+                <div class="row justify-content-center">
+                    <table id="example" class="table">
+                        <thead>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>School Name</th>
+                            <th>Request Type</th>
+                            <th>Status</th>
+                            <th>Created at</th>
+                            <th>Date Approved</th>
+                            <!-- <th>Appointment / Advice</th> -->
+                            <th>Action</th>
+                        </thead>
+                        <tbody>
+
+                            <?php
+
+                            include "../models/conn.php";
+
+                            $query = "SELECT * FROM `request` WHERE status = 'Approved' OR status = 'Rejected' ORDER BY id DESC";
+                            $result = mysqli_query($conn, $query);
+                            $num = 1;
+                            if (mysqli_num_rows($result) > 0) {
+                                foreach ($result as $row) {
+                                    ?>
+
+                                    <tr>
+                                        <!-- ID -->
+                                        <td>
+                                            <?= $num ?>
+                                        </td>
+
+                                        <!-- Name -->
+                                        <td>
+                                            <?= $row['firstname'] . " " . $row['lastname'] ?>
+                                        </td>
+
+                                        <!-- School Name -->
+                                        <td>
+                                            <?= $row['school_name'] ?>
+                                        </td>
+
+                                        <!-- Request -->
+                                        <td>
+                                            <?= $row['request'] ?>
+                                        </td>
+
+                                        <!-- Status -->
+                                        <td>
+                                            <?php
+                                            if ($row['status'] == 'Approved') {
+                                                echo "<span style='color: green;'>";
+                                                echo $row['status'];
+                                                echo "</span>";
+                                            } else {
+                                                echo "<span style='color: red;'>";
+                                                echo $row['status'];
+                                                echo "</span>";
+                                            }
+                                            ?>
+                                        </td>
+
+                                        <!-- Date Created -->
+                                        <td>
+                                            <?php
+                                            $timestamp = strtotime($row['created_at']);
+                                            echo date("M j Y, h:i:A", $timestamp);
+                                            ?>
+                                        </td>
+
+                                        <!-- Date Approved -->
+                                        <td>
+                                            <?php
+                                            $timestamp = strtotime($row['updated_at']);
+                                            echo date("M j Y, h:i:A", $timestamp);
+                                            ?>
+                                        </td>
+
+                                        <!-- Appointment / Advice -->
+                                        <!--               <td>
+                                    <a href="<?= $row['appointment'] ?>" target="_blank"><span class="mx-3"><i class="fa-solid fa-arrow-right"></i><?= $row['appointment'] ?></a>
+                                </td> -->
+
+                                        <!-- Action -->
+                                        <td>
+                                            <button value="<?= $row['id'] ?>" class="viewAll button btnView fa-solid fa-eye"
+                                                type="button" data-bs-toggle="modal" data-bs-target="#viewAllModal"></button>
+
+                                            <!-- 
+                                            <button value="<?= $row['id'] ?>" class="reply button btnReply fa-solid fa-pen"
+                                                type="button" data-bs-toggle="modal" data-bs-target="#replyModal"></button> -->
+
+                                        </td>
+
+                                    </tr>
+
+                                    <?php
+                                    $num++;
+                                }
+                            }
+
+                            ?>
+                        </tbody>
+                        <tfoot class="tfoot">
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>School Name</th>
+                            <th>Request Type</th>
+                            <th>Status</th>
+                            <th>Created at</th>
+                            <th>Date Approved</th>
+                            <th>Action</th>
+                        </tfoot>
+                    </table>
+
+                </div>
+
+
+            </div>
+        </div>
     </div>
 
     <!-- view all Modal -->
     <div class="modal fade" id="viewAllModal" tabindex="-1" aria-labelledby="viewAllModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-        <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Details</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <p>School ID: <span id="schoolId"></span></p>
-            <p>School Name: <span id="schoolName"></span></p>
-            <p>District: <span id="district"></span></p>
-            <p>School Head: <span id="schoolHead"></span></p>
-            <p>Unit/Section: <span id="unit"></span></p>
-            <p>Employee Number: <span id="employeeNumber"></span></p>
-            <p>First Name: <span id="firstname"></span></p>
-            <p>Middle Name: <span id="middlename"></span></p>
-            <p>Last Name: <span id="lastname"></span></p>
-            <p>Personal Email: <span id="personalEmail"></span></p>
-            <p>Deped Email: <span id="depedEmail"></span></p>
-            <p>Phone Number: <span id="phoneNumber"></span></p>
-            <p>Request: <span id="request"></span></p>
-            <p>Status: <span id="status"></span></p>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Details</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <table class="table" style="flex-column">
+                        <thead class="text-white">
+                            <tr>
+                                <th colspan="2">School Details</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td>School ID:</td>
+                            <td><b><span id="schoolId"></b></span></td>
+                        </tr>
+                        <tr>
+                            <td>School Name:</td>
+                            <td><b><span id="schoolName"></b></td>
+                        </tr>
+                        <tr>
+                            <td>District:</td>
+                            <td><b><span id="district"></b></td>
+                        </tr>
+                        <tr>
+                            <td>School Head:</td>
+                            <td><b><span id="schoolHead"></b></td>
+                        </tr>
+                        <tr>
+                            <td>Unit/Section:</td>
+                            <td><b><span id="unit"></b></td>
+                        </tr>
+
+
+
+                        <thead class="text-white">
+                            <tr>
+                                <th colspan="2">Employee Details</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td>Employee Number: </span></td>
+                            <td><b><span id="employeeNumber"></b></span></td>
+                        </tr>
+                        <tr>
+                            <td>First Name:</td>
+                            <td><b><span id="firstname"></b></td>
+                        </tr>
+                        <tr>
+                            <td>Middle Name: </td>
+                            <td><b><span id="middlename"></b></td>
+                        </tr>
+                        <tr>
+                            <td> Last Name: </td>
+                            <td><b><span id="lastname"></b></td>
+                        </tr>
+                        <tr>
+                            <td>Personal Email: </td>
+                            <td><b><span id="personalEmail"></b></td>
+                        </tr>
+                        <tr>
+                            <td>DepEd Email: </td>
+                            <td><b><span id="depedEmail"></b></td>
+                        </tr>
+                        <tr>
+                            <td>Phone Number: </td>
+                            <td><b><span id="phoneNumber"></b></td>
+                        </tr>
+
+                        <hr>
+
+                        <thead class="text-white">
+                            <tr>
+                                <th colspan="2">Request Details</th>
+                            </tr>
+                        </thead>
+
+                        <tr>
+                            <td>Request Type:</td>
+                            <td><b><span id="request"></b></span></td>
+                        </tr>
+                        <tr>
+                            <td>Request Status:</td>
+                            <td>
+                                <b>
+                                    <span id="status" style="color: black;">
+                                </span>
+                            </b>
+                        </td>
+                        </tr>
+
+                    </table>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btnClose" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="replyModal" style="overflow: wrap;" tabindex="-1" aria-labelledby="replyModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-3" id="exampleModalLabel">Replies</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="id" class="d-none">
+                    <!-- reply for create -->
+                    <div class="container">
+                        <h2>Reply for Account Creation</h2>
+                        <hr>
+                        <div id="reply_create" class="" style="word-wrap: break-word;">
+                            <p><b>Please click the link below for your feedback:</b></p>
+                            <p><a
+                                    href="https://l.facebook.com/l.php?u=https%3A%2F%2Fforms.gle%2FF3PKV3tp4WQEaet16%3Ffbclid%3DIwAR1KBXO5ay-2w3fEp30u5SHovd6-j-GZNvKKEVkpUKskEXoSKPC2z9a7aYQ&h=AT3dctitvUghRBr_mkQZ5n8wnUKunCiEe05LSMSJnfXhCzCf4Le4LnJJXNy8U4PZarUhfuj3AIE9I-4m-xme4PjtL-UwXqCmUOvYrlBAMtQxvPKRx99puBrW9aOQihyS8aV330v24V53luk">
+                                    https://l.facebook.com/l.php?u=https%3A%2F%2Fforms.gle%2FF3PKV3tp4WQEaet16%3Ffbclid%3DIwAR1KBXO5ay-2w3fEp30u5SHovd6-j-GZNvKKEVkpUKskEXoSKPC2z9a7aYQ&h=AT3dctitvUghRBr_mkQZ5n8wnUKunCiEe05LSMSJnfXhCzCf4Le4LnJJXNy8U4PZarUhfuj3AIE9I-4m-xme4PjtL-UwXqCmUOvYrlBAMtQxvPKRx99puBrW9aOQihyS8aV330v24V53luk
+                                </a></p>
+                            <p><b>Your request for DepEd Gmail Account has been approved. You may now log-in to your
+                                    deped gmail account through this link
+                                    https://accounts.google.com/signin/v2/identifier?flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin
+                                    using the following details:</b></p>
+                            <p style="margin-left: 40px;"><b>Username: <span class="reply_email"></span></b></p>
+                            <p style="margin-left: 40px;"><b>Password: <span class="reply_password"></span></b></p>
+                            <p><b>References:</b></p>
+                            <p><b>Go to depedlaguna.com.ph > Issuances > Division Memorandum > DM 2018</b></p>
+                            <p style="margin-left: 40px;"><b>DM 185 s.2018 Corrigendum to Division Memorandum No.
+                                    151 s.2018</b></p>
+                            <p style="margin-left: 40px;"><b>DM 151 s.2018 Procedure for Deped Gmail Account
+                                    Request</b></p>
+                            <p style="margin-left: 40px;"><b>Thank you and God bless.</b></p>
+                        </div>
+
+                        <button onclick="CopyToClipboard('reply_create')" class="btn btn-success mb-3">Copy
+                            creation</button>
+                    </div>
+
+                    <hr>
+                    <div class="container">
+                        <h2>Reply for Account Password Reset</h2>
+                        <!-- reply for reset -->
+                        <div id="reply_reset" class="" style="word-wrap: break-word;">
+                            <p><b>Please click the link below for your feedback:</b></p>
+                            <p><a
+                                    href="https://l.facebook.com/l.php?u=https%3A%2F%2Fforms.gle%2FF3PKV3tp4WQEaet16%3Ffbclid%3DIwAR1KBXO5ay-2w3fEp30u5SHovd6-j-GZNvKKEVkpUKskEXoSKPC2z9a7aYQ&h=AT3dctitvUghRBr_mkQZ5n8wnUKunCiEe05LSMSJnfXhCzCf4Le4LnJJXNy8U4PZarUhfuj3AIE9I-4m-xme4PjtL-UwXqCmUOvYrlBAMtQxvPKRx99puBrW9aOQihyS8aV330v24V53luk">
+                                    https://l.facebook.com/l.php?u=https%3A%2F%2Fforms.gle%2FF3PKV3tp4WQEaet16%3Ffbclid%3DIwAR1KBXO5ay-2w3fEp30u5SHovd6-j-GZNvKKEVkpUKskEXoSKPC2z9a7aYQ&h=AT3dctitvUghRBr_mkQZ5n8wnUKunCiEe05LSMSJnfXhCzCf4Le4LnJJXNy8U4PZarUhfuj3AIE9I-4m-xme4PjtL-UwXqCmUOvYrlBAMtQxvPKRx99puBrW9aOQihyS8aV330v24V53luk
+                                </a></p>
+                            <p><b>Your request for reset Account has been approved. You may now log-in to your deped
+                                    gmail account through this link
+                                    https://accounts.google.com/signin/v2/identifier?flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin
+                                    using the following details:</b></p>
+                            <p style="margin-left: 40px;"><b>Username: <span class="reply_email"></span></b></p>
+                            <p style="margin-left: 40px;"><b>Password: <span class="reply_password"></span></b></p>
+                            <p><b>References:</b></p>
+                            <p><b>Go to depedlaguna.com.ph > Issuances > Division Memorandum > DM 2018</b></p>
+                            <p style="margin-left: 40px;"><b>DM 185 s.2018 Corrigendum to Division Memorandum No.
+                                    151 s.2018</b></p>
+                            <p style="margin-left: 40px;"><b>DM 151 s.2018 Procedure for Deped Gmail Account
+                                    Request</b></p>
+                            <p style="margin-left: 40px;"><b>Thank you and God bless.</b></p>
+                        </div>
+                        <button onclick="CopyToClipboard('reply_reset')" class="btn btn-success">Copy reset</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mb-3" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
+
+
+
 
 </body>
+
+<!-- DataTables -->
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../zoom.min.js"></script>
 <script>
+
     $(document).ready(function () {
-        $('#example').DataTable();
+        $('#example').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
     });
 
-    $(".viewAll").on("click", function(){
+
+    $(".viewAll").on("click", function () {
         let id = $(this).val();
 
         $.ajax({
@@ -155,7 +537,7 @@ if(!isset($_SESSION["username"])){
             },
             success: function (response) {
                 let res = $.parseJSON(response);
-                if(res.status == 200){
+                if (res.status == 200) {
                     $("#schoolId").text(res.school_id);
                     $("#schoolName").text(res.school_name);
                     $("#district").text(res.district);
@@ -173,9 +555,49 @@ if(!isset($_SESSION["username"])){
                 }
             }
         });
-        
+
     });
-    
+
+    $(".reply").on("click", function () {
+
+        // set input #id value 
+        $("#id").val($(this).val());
+
+        // get the input #id value
+        let id = $("#id").val();
+
+        $.ajax({
+            type: "POST",
+            url: "../replies/create.php",
+            data: {
+                "id": id,
+            },
+            success: function (response) {
+                let res = $.parseJSON(response);
+                if (res.status == 200) {
+                    $(".reply_email").text(res.username);
+                    $(".reply_password").text(res.password);
+                }
+            }
+        });
+    });
+
+
+    function CopyToClipboard(containerid) {
+        if (document.selection) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(document.getElementById(containerid));
+            range.select().createTextRange();
+            document.execCommand("copy");
+        } else if (window.getSelection) {
+            var range = document.createRange();
+            range.selectNode(document.getElementById(containerid));
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+        }
+    }
+
+
 </script>
 
 </html>
