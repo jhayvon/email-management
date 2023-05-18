@@ -1,0 +1,152 @@
+nav {
+            /* background-color: olive; */
+            height: 100vh;
+            min-width: 80px;
+            display: inline-block;
+        }
+
+        .navbar {
+            min-width: 80px;
+        }
+
+        main {
+            width: 90%;
+            height: 100vh;
+            display: inline-block;
+        }
+
+        div .borderIn {
+            border-radius: 5px;
+            border-style: none;
+        }
+
+        ul li a {
+            height: 60px;
+            /* background-color: aqua; */
+            display: block;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #000;
+        }
+
+        ul li a.active {
+            background-color: #0a5fc0;
+            border-radius: 20px;
+            color: white;
+        }
+
+                ul li a {
+            height: 60px;
+            /* background-color: aqua; */
+            display: block;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #000;
+        }
+
+        ul li a.active {
+            background-color: #0a5fc0;
+            border-radius: 20px;
+            color: white;
+        }
+                ul li b {
+                    height: 30px;
+                    /* background-color: aqua; */
+                    display: flex;
+                    margin-bottom: 0px;
+                    display: flex;
+                    align-items: center;
+                    text-decoration: none;
+                    color: #000;
+                }
+        
+                ul li b.active {
+                    color: black;
+                }
+        
+        .card {
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .reply1 {
+            margin: 50px 50px 100px 100px;
+        }
+
+        body {
+
+            width: 100%;
+            
+
+        }
+
+        table .id {
+            background-color: #0a5fc0;
+        }
+
+        .table>thead {
+            background-color: #0a5fc0;
+            text-align: center;
+            color: white;
+        }
+
+        .tfoot {
+            background-color: #0a5fc0;
+            text-align: center;
+            color: white;
+        }
+
+        button {
+            border: 5px;
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #0a5fc2;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .button:hover {
+            background-color: #0a5fc0;
+            color: white;
+        }
+
+
+        .btnapprove {
+            background-color: green;
+        }
+
+        .btnreject {
+            background-color: red;
+        }
+
+        .btnReply {
+            background-color: darkcyan;
+        }
+
+        .btnView {
+            background-color: #002244;
+        }
+
+        .btnClose {
+            background-color: red;
+            color: white;
+        }
+            
+
+
+        span .id {
+            align-items: center;
+
+            display: inline-block;
+        }

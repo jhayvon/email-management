@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 if (!isset($_SESSION["username"])) {
@@ -8,6 +7,7 @@ if (!isset($_SESSION["username"])) {
 }
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,132 +19,15 @@ if (!isset($_SESSION["username"])) {
     <?php include "../html/favicon.php" ?>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Cuprum&subset=latin' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="jquery.confirm/jquery.confirm.css" />
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
     <link rel="stylesheet" href="../assets/css/logo.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css"> -->
-
-
-    <style>
-        nav {
-            /* background-color: olive; */
-            height: 100vh;
-            min-width: 80px;
-            display: inline-block;
-        }
-
-        .navbar {
-            min-width: 80px;
-        }
-
-        main {
-            width: 90%;
-            height: 100vh;
-            display: inline-block;
-        }
-
-        div .borderIn {
-            border-radius: 5px;
-            border-style: none;
-        }
-
-        ul li a {
-            height: 60px;
-            /* background-color: aqua; */
-            display: block;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: #000;
-        }
-
-        ul li a.active {
-            background-color: #0a5fc0;
-            border-radius: 20px;
-            color: white;
-        }
-
-        .card {
-            min-height: 100px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        body {
-
-            width: 100%;
-
-        }
-
-        table .id {
-            background-color: #0a5fc0;
-        }
-
-        .table>thead {
-            background-color: #0a5fc0;
-            text-align: center;
-            color: white;
-        }
-
-        .tfoot {
-            background-color: #0a5fc0;
-            text-align: center;
-            color: white;
-        }
-
-        button {
-            border: 5px;
-            color: white;
-            padding: 10px 15px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 12px;
-            cursor: pointer;
-            border-radius: 5px;
-            background-color: #0a5fc2;
-            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        }
-
-        .button:hover {
-            background-color: #0a5fc0;
-            color: white;
-        }
-
-
-        .btnapprove {
-            background-color: green;
-        }
-
-        .btnreject {
-            background-color: red;
-        }
-
-        .btnReply {
-            background-color: darkcyan;
-        }
-
-        .btnView {
-            background-color: #002244;
-        }
-
-        .btnClose {
-            background-color: red;
-            color: white;
-        }
-
-        span .id {
-            align-items: center;
-
-            display: inline-block;
-        }
-    </style>
+     <link rel="stylesheet" href="../assets/css/modal.css">
+    <link rel="stylesheet" href="../assets/css/mainer.css">
 </head>
 
 <body>
@@ -217,6 +100,7 @@ if (!isset($_SESSION["username"])) {
 
                             $query = "SELECT * FROM `request` WHERE status= 'Pending' ORDER BY created_at DESC";
                             $result = mysqli_query($conn, $query);
+
                             $num = 1;
                             if (mysqli_num_rows($result) > 0) {
                                 foreach ($result as $row) {
@@ -405,78 +289,77 @@ if (!isset($_SESSION["username"])) {
         </div>
     </div>
 
+    
+
     <!-- Modal -->
-    <div class="modal fade" id="replyModal" style="overflow: wrap;" tabindex="-1" aria-labelledby="replyModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Replies</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="container">
+    <div class="row justify-content-center">
+        <div id="replyModal" tabindex="-1" role="dialog" aria-labelledby="replyModalLabel" aria-hidden="true" class="modal fade text-left">
+            <div role="document" class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header row d-flex justify-content-between mx-1 mx-sm-3 mb-0 pb-0 border-0">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item active">
+                            <b class="tabs active" id="tab01">
+                                <h6 class="font-weight-bold">Reply Panel</h6>
+                             </b>
+                        </li>
+                    </ul>
                 </div>
-                <div class="modal-body">
-                    <input type="text" id="id" class="d-none">
-                    <!-- reply for create -->
-                    <div class="container">
-                        <h2>Reply for Account Creation</h2>
-                        <hr>
-                        <div id="reply_create" class="" style="word-wrap: break-word;">
-                            <p><b>Please click the link below for your feedback:</b></p>
-                            <p><a
-                                    href="https://l.facebook.com/l.php?u=https%3A%2F%2Fforms.gle%2FF3PKV3tp4WQEaet16%3Ffbclid%3DIwAR1KBXO5ay-2w3fEp30u5SHovd6-j-GZNvKKEVkpUKskEXoSKPC2z9a7aYQ&h=AT3dctitvUghRBr_mkQZ5n8wnUKunCiEe05LSMSJnfXhCzCf4Le4LnJJXNy8U4PZarUhfuj3AIE9I-4m-xme4PjtL-UwXqCmUOvYrlBAMtQxvPKRx99puBrW9aOQihyS8aV330v24V53luk">
-                                    https://l.facebook.com/l.php?u=https%3A%2F%2Fforms.gle%2FF3PKV3tp4WQEaet16%3Ffbclid%3DIwAR1KBXO5ay-2w3fEp30u5SHovd6-j-GZNvKKEVkpUKskEXoSKPC2z9a7aYQ&h=AT3dctitvUghRBr_mkQZ5n8wnUKunCiEe05LSMSJnfXhCzCf4Le4LnJJXNy8U4PZarUhfuj3AIE9I-4m-xme4PjtL-UwXqCmUOvYrlBAMtQxvPKRx99puBrW9aOQihyS8aV330v24V53luk
-                                </a></p>
-                            <p><b>Your request for DepEd Gmail Account has been approved. You may now log-in to your
-                                    deped gmail account through this link
-                                    https://accounts.google.com/signin/v2/identifier?flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin
-                                    using the following details:</b></p>
-                            <p style="margin-left: 40px;"><b>Username: <span class="reply_email"></span></b></p>
-                            <p style="margin-left: 40px;"><b>Password: <span class="reply_password"></span></b></p>
-                            <p><b>References:</b></p>
-                            <p><b>Go to depedlaguna.com.ph > Issuances > Division Memorandum > DM 2018</b></p>
-                            <p style="margin-left: 40px;"><b>DM 185 s.2018 Corrigendum to Division Memorandum No.
-                                    151 s.2018</b></p>
-                            <p style="margin-left: 40px;"><b>DM 151 s.2018 Procedure for Deped Gmail Account
-                                    Request</b></p>
-                            <p style="margin-left: 40px;"><b>Thank you and God bless.</b></p>
-                        </div>
 
-                        <button onclick="CopyToClipboard('reply_create')" class="btn btn-success mb-3">Copy
-                            creation</button>
                     </div>
 
-                    <hr>
-                    <div class="container">
-                        <!-- reply for reset -->
-                        <div id="reply_reset" class="" style="word-wrap: break-word;">
-                            <p><b>Please click the link below for your feedback:</b></p>
-                            <p><a
-                                    href="https://l.facebook.com/l.php?u=https%3A%2F%2Fforms.gle%2FF3PKV3tp4WQEaet16%3Ffbclid%3DIwAR1KBXO5ay-2w3fEp30u5SHovd6-j-GZNvKKEVkpUKskEXoSKPC2z9a7aYQ&h=AT3dctitvUghRBr_mkQZ5n8wnUKunCiEe05LSMSJnfXhCzCf4Le4LnJJXNy8U4PZarUhfuj3AIE9I-4m-xme4PjtL-UwXqCmUOvYrlBAMtQxvPKRx99puBrW9aOQihyS8aV330v24V53luk">
-                                    https://l.facebook.com/l.php?u=https%3A%2F%2Fforms.gle%2FF3PKV3tp4WQEaet16%3Ffbclid%3DIwAR1KBXO5ay-2w3fEp30u5SHovd6-j-GZNvKKEVkpUKskEXoSKPC2z9a7aYQ&h=AT3dctitvUghRBr_mkQZ5n8wnUKunCiEe05LSMSJnfXhCzCf4Le4LnJJXNy8U4PZarUhfuj3AIE9I-4m-xme4PjtL-UwXqCmUOvYrlBAMtQxvPKRx99puBrW9aOQihyS8aV330v24V53luk
-                                </a></p>
-                            <p><b>Your request for reset Account has been approved. You may now log-in to your deped
-                                    gmail account through this link
-                                    https://accounts.google.com/signin/v2/identifier?flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin
-                                    using the following details:</b></p>
-                            <p style="margin-left: 40px;"><b>Username: <span class="reply_email"></span></b></p>
-                            <p style="margin-left: 40px;"><b>Password: <span class="reply_password"></span></b></p>
-                            <p><b>References:</b></p>
-                            <p><b>Go to depedlaguna.com.ph > Issuances > Division Memorandum > DM 2018</b></p>
-                            <p style="margin-left: 40px;"><b>DM 185 s.2018 Corrigendum to Division Memorandum No.
-                                    151 s.2018</b></p>
-                            <p style="margin-left: 40px;"><b>DM 151 s.2018 Procedure for Deped Gmail Account
-                                    Request</b></p>
-                            <p style="margin-left: 40px;"><b>Thank you and God bless.</b></p>
-                        </div>
-                        <button onclick="CopyToClipboard('reply_reset')" class="btn btn-success">Copy reset</button>
-                    </div>
+                     <div class="line"></div>
 
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary mb-3" data-bs-dismiss="modal">Close</button>
+                    <div class="modal-body p-0">
+                        <input type="text" id="id" class="d-none">
+                       <div class="container1">
+                            <fieldset class="show" id="tab011">
+                                <div class="bg-light" >
+                                    <h4 class="text-center mb-4 mt-0 pt-4">Account Creation Reply</h4>
+                                    <div id="reply_create" class="reply1" style="word-wrap: break-word;">
+                                    <form action="" method="post" id="formReply">
+                                                <div class="form-group">
+                                                    <label for="recipient-name" class="col-form-label"><b>Recipient:</b></label>
+                                                    <input type="text" class="form-control" name="recipient-email" id="recipient-email" value=" ">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="message-text" class="col-form-label"><b>Message:</b></label>
+                                                    <textarea class="form-control" name="message-text" id="message-text" rows="19" word-wrap> 
+Please click the link below for your feedback:
+                                                        
+https://l.facebook.com/l.php?u=https%3A%2F%2Fforms.gle%2FF3PKV3tp4WQEaet16%3Ffbclid%3DIwAR1KBXO5ay-2w3fEp30u5SHovd6-j-GZNvKKEVkpUKskEXoSKPC2z9a7aYQ&h=AT3dctitvUghRBr_mkQZ5n8wnUKunCiEe05LSMSJnfXhCzCf4Le4LnJJXNy8U4PZarUhfuj3AIE9I-4m-xme4PjtL-UwXqCmUOvYrlBAMtQxvPKRx99puBrW9aOQihyS8aV330v24V53luk
+
+Your request for (--Request Type--) has been approved. You may now log-in to your deped gmail account through this link: https://accounts.google.com/signin/v2/identifier?flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin
+Using the following credentials:
+
+                            Username:
+                            Password:
+
+Go to depedlaguna.com.ph > Issuances > Division Memorandum > DM 2018 DM 185 s.2018 Corrigendum to Division Memorandum No.151 s.2018 DM 151 s.2018 Procedure for Deped Gmail Accoun Request.
+Thank you and God bless.                            
+                                                    </textarea>
+                                                </div>
+                                                
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" name="send" class="btnEmail btn-primary">Send Email</button>
+                            </div>
+                                    </form>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+                    </div> 
+                    </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+
 
 
 
@@ -493,13 +376,14 @@ if (!isset($_SESSION["username"])) {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="sweetalert2/dist/sweetalert2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script> -->
-<!-- <script src="sweetalert2.all.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 <script src="../zoom.min.js"></script>
 
 <script>
+
+    
+
 
     $(document).ready(function () {
         $('#example').DataTable({
@@ -559,10 +443,35 @@ if (!isset($_SESSION["username"])) {
             success: function (response) {
                 let res = $.parseJSON(response);
                 if (res.status == 200) {
-                    $(".reply_email").text(res.username);
-                    $(".reply_password").text(res.password);
+                    $("#recipient-email").val(res.email);
                 }
             }
+        });
+    });
+
+    $(".btnEmail").on("click", function () {
+
+        let id = $("#id").val();  
+        let email = $("#recipient-email").val();
+        let message = $("#message-text").val();
+        let url = "action/reply.php";
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                "id": id,
+                "email": email,
+                "message": message
+                },
+                success: function (response) {
+                    let res = $.parseJSON(response);
+                    if (res.status == 200) {
+                        $("#email-sent").text("Email Sent");
+                        $("#email-sent").show();
+                    }
+                }
+                
         });
     });
 
@@ -652,6 +561,35 @@ if (!isset($_SESSION["username"])) {
         }
     };
 
+    $(document).ready(function(){
+        $(".tabs").click(function(){
+                    $(".tabs").removeClass("active");
+                    $(".tabs h6").removeClass("font-weight-bold");
+                    $(".tabs h6").addClass("text-muted");
+                    $(this).children("h6").removeClass("text-muted");
+                    $(this).children("h6").addClass("font-weight-bold");
+                    $(this).addClass("active");
+                    current_fs = $(".active");
+                    next_fs = $(this).attr('id');
+                    next_fs = "#" + next_fs + "1";
+                    $("fieldset").removeClass("show");
+                    $(next_fs).addClass("show");
+
+                    current_fs.animate({}, {
+                    step: function() {
+                    current_fs.css({
+                    'display': 'none',
+                    'position': 'relative'
+                    });
+                    next_fs.css({
+                    'display': 'block'
+                });
+            }
+        });
+    });
+});
+
 </script>
 
 </html>
+

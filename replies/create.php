@@ -7,7 +7,7 @@ if (isset($_POST["id"])) {
     $query = "SELECT * FROM `request` WHERE id='$id'";
     $result = mysqli_query($conn, $query);
 
-    $qEmail = "SELECT `deped_email` from request WHERE `id` = '$id';";
+    $qEmail = "SELECT `personal_email` from request WHERE `id` = '$id';";
     $eRes = mysqli_query($conn, $qEmail);
     
 
@@ -23,8 +23,7 @@ if (isset($_POST["id"])) {
                 $res = [
                     "status" => 200,
                     "message" => "select success",
-                    "username" => $row['deped_email'],
-                    "password" => $row['password']
+                    "email" => $row['personal_email']
                 ];
                 echo json_encode($res);
                 return;

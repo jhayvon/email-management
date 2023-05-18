@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Email Request Form - DepED</title>
     <?php include "../html/favicon.php"; ?>
     <!-- bootstrap css cdn -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -48,7 +48,7 @@
                         <label for="requestType" class="form-label">Request Type <span
                                 class="text-danger">*</span></label>
                         <select onclick="checkRequestType()" name="requestType" id="requestType" class="form-control"
-                            required>
+                            required >
                             <option value="none" selected disabled hidden>Select Type</option>
                             <option value="Create">Create</option>
                             <option value="Suspend">Suspend</option>
@@ -235,6 +235,8 @@
 
                 <a href="../index.php" class="btn btn-danger p-3">CANCEL</a>
                 <input class="btn btn-primary p-3" type="submit" name="submit" value="SUBMIT">
+                <hr>
+                <p><span class="text-danger">*</span>The page will Automaticaly refresh after submitting the request.</p>
 
             </form>
 
@@ -267,9 +269,9 @@
                 success: function (response) {
                     const res = $.parseJSON(response);
                     if (res.status == 200) {
-                        // $("#alert").removeClass("d-none");
-                        // $("#message").text(res.message);
-                        // $("#myForm")[0].reset();
+                        $("#alert").removeClass("d-none");
+                        $("#message").text(res.message);
+                        $("#myForm")[0].reset();
                         setTimeout(function () { location.reload() }, 1500);
                     }
                 }
