@@ -8,14 +8,24 @@ if (!isset($_SESSION["username"])) {
 
 ?>
 
+<link rel="stylesheet" href="../assets/css/logo.css">
+<?php include "../../html/favicon.php" ?>
+
+<title>Pending - DepEd</title>
+
 <style>
+  body {
+    background-color: #64B5F6;
+  }
+
 #card {
-  position: relative;
+  position: inherit;
   width: 320px;
   display: block;
-  margin: 40px auto;
+  margin: 210px auto;
   text-align: center;
   font-family: 'Source Sans Pro', sans-serif;
+
 }
 
 #upper-side {
@@ -108,8 +118,9 @@ if (!isset($_SESSION["username"])) {
 
   <div id='lower-side'>
     <p id='message'>
-      Email Sent! Press "Return" to go back!
+      Email Sent! 
     </p>
+    <p id="message">Press "Return" to go back!</p>
     <a href="../pending.php" id="contBtn">Return</a>
   </div>
 </div>

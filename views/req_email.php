@@ -36,7 +36,7 @@
                 </center>
             </div>
             <br>
-            <form method="post" id="myForm" class="p-5" enctype="multipart/form-data">
+            <form onsubmit="return confirm('Are you sure you want to submit this request?')" method="post" id="myForm" class="p-5" enctype="multipart/form-data">
 
                 <div id="alert" class="alert alert-success alert-dismissible mb-3 fade show d-none" role="alert">
                     <strong><span id="message"></span></strong>

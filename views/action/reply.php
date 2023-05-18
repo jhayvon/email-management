@@ -7,37 +7,7 @@
 		die();
 	}
 	include "../../models/conn.php";
-//---------------------------------------------
-
-	if (isset($_POST['id'])) {
-
-    $id = mysqli_real_escape_string($conn, $_POST['id']);
-    $user = $_SESSION['username'];
-
-    $query = "UPDATE request SET status='Approved', approved_by='$user', updated_at = NOW() WHERE id = '$id'";
-    $result = mysqli_query($conn, $query);
-
-    if ($result) {
-        $res = [
-            "status" => 200,
-            "message" => "update success",
-        ];
-        echo json_encode($res);
-        return;
-    } else {
-        $res = [
-            "status" => 400,
-            "message" => "update failed",
-        ];
-        echo json_encode($res);
-        return;
-    }
-}
-
-
-	$emails = $_POST['recipient-email'];
-	$bodyMsg = $_POST['message-text'];
-	$details = nl2br($bodyMsg);
+//---------------------------------------------//
 
 	use PHPMailer\PHPMailer\PHPMailer;
 	use PHPMailer\PHPMailer\Exception;
@@ -46,7 +16,10 @@
 	require 'PHPMailer/src/Exception.php';
 	require 'PHPMailer/src/PHPMailer.php';
 	require 'PHPMailer/src/SMTP.php';
-
+	
+	$emails = $_POST['recipient-email'];
+	$bodyMsg = $_POST['message-text'];
+	$details = nl2br($bodyMsg);
 	
 	$mail = new PHPMailer(true);
 
@@ -67,11 +40,20 @@
 	$mail->Subject = 'E-mail Request';
 	$mail->Body = $details;
 
-if($mail->addAddress($email)){//;
+if($mail->addAddress($email)) {
+	// echo $_POST['id']."";
+	if (isset($_POST['id'])) {
+
+		$id = mysqli_real_escape_string($conn, $_POST['id']);
+		$user = $_SESSION['username'];
+
+	
+		$query = "UPDATE request SET status='Approved', approved_by='$user', updated_at = NOW() WHERE id = '$id'";
+		$result = mysqli_query($conn, $query);
+	
+	}
 	$mail->send();
 	header("location:sent.php");
 }
-
-
 
 ?>

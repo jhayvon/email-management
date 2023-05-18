@@ -155,8 +155,8 @@ if (!isset($_SESSION["username"])) {
                                             <button value="<?= $row['id'] ?>" class="reply button btnReply fa-solid fa-pen"
                                                 type="button" data-bs-toggle="modal" data-bs-target="#replyModal"></button>
 
-                                            <button value="<?= $row['id'] ?>" type="button"
-                                                class="approve button btnapprove fa-solid fa-check"></button>
+                                            <!-- <button value="<?= $row['id'] ?>" type="button"
+                                                class="approve button btnapprove fa-solid fa-check"></button> -->
 
                                             <button value="<?= $row['id'] ?>" type="button"
                                                 class="reject button btnreject fa-solid fa-ban"></button>
@@ -313,13 +313,14 @@ if (!isset($_SESSION["username"])) {
                      <div class="line"></div>
 
                     <div class="modal-body p-0">
-                        <input type="text" id="id" class="d-none">
+                        
                        <div class="container1">
                             <fieldset class="show" id="tab011">
                                 <div class="bg-light" >
                                     <h4 class="text-center mb-4 mt-0 pt-4">Account Creation Reply</h4>
                                     <div id="reply_create" class="reply1" style="word-wrap: break-word;">
-                                    <form action="" method="post" id="formReply">
+                                    <form action="action/reply.php" method="post" id="formReply">
+                                         <input name="id" type="text" id="id" class="d-none">
                                                 <div class="form-group">
                                                     <label for="recipient-name" class="col-form-label"><b>Recipient:</b></label>
                                                     <input type="text" class="form-control" name="recipient-email" id="recipient-email" value=" ">
@@ -332,7 +333,7 @@ Please click the link below for your feedback:
                                                         
 https://l.facebook.com/l.php?u=https%3A%2F%2Fforms.gle%2FF3PKV3tp4WQEaet16%3Ffbclid%3DIwAR1KBXO5ay-2w3fEp30u5SHovd6-j-GZNvKKEVkpUKskEXoSKPC2z9a7aYQ&h=AT3dctitvUghRBr_mkQZ5n8wnUKunCiEe05LSMSJnfXhCzCf4Le4LnJJXNy8U4PZarUhfuj3AIE9I-4m-xme4PjtL-UwXqCmUOvYrlBAMtQxvPKRx99puBrW9aOQihyS8aV330v24V53luk
 
-Your request for (--Request Type--) has been approved. You may now log-in to your deped gmail account through this link: https://accounts.google.com/signin/v2/identifier?flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin
+Your request for (--Request Type--) has been approved. You may now log in to your DepEd gmail account through this link: https://accounts.google.com/signin/v2/identifier?flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin
 Using the following credentials:
 
                             Username:
@@ -344,8 +345,8 @@ Thank you and God bless.
                                                 </div>
                                                 
                               <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" name="send" class="btnEmail btn-primary">Send Email</button>
+                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" name="send" class="btnEmail btn-primary">Approve & Reply</button>
                             </div>
                                     </form>
                                     </div>
@@ -457,7 +458,7 @@ Thank you and God bless.
         let url = "action/reply.php";
 
         $.ajax({
-            type: "POST",
+            method: "POST",
             url: url,
             data: {
                 "id": id,
@@ -547,19 +548,19 @@ Thank you and God bless.
     });
 
 
-    function CopyToClipboard(containerid) {
-        if (document.selection) {
-            var range = document.body.createTextRange();
-            range.moveToElementText(document.getElementById(containerid));
-            range.select().createTextRange();
-            document.execCommand("copy");
-        } else if (window.getSelection) {
-            var range = document.createRange();
-            range.selectNode(document.getElementById(containerid));
-            window.getSelection().addRange(range);
-            document.execCommand("copy");
-        }
-    };
+    // function CopyToClipboard(containerid) {
+    //     if (document.selection) {
+    //         var range = document.body.createTextRange();
+    //         range.moveToElementText(document.getElementById(containerid));
+    //         range.select().createTextRange();
+    //         document.execCommand("copy");
+    //     } else if (window.getSelection) {
+    //         var range = document.createRange();
+    //         range.selectNode(document.getElementById(containerid));
+    //         window.getSelection().addRange(range);
+    //         document.execCommand("copy");
+    //     }
+    // };
 
     $(document).ready(function(){
         $(".tabs").click(function(){

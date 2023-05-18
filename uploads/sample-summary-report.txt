@@ -1,0 +1,355 @@
+<?php
+
+use function PHPSTORM_META\type;
+
+include "../models/conn.php";
+session_start();
+if (!isset($_SESSION["username"])) {
+    header("Location: login.php");
+    die();
+}
+    
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pending - Deped Laguna</title>
+    <?php include "../html/favicon.php" ?>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Cuprum&subset=latin' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="jquery.confirm/jquery.confirm.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+        <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" href="../assets/css/logo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <link rel="stylesheet" href="@sweetalert2/themes/dark/dark.css">
+
+
+
+    <style>
+        nav {
+            /* background-color: olive; */
+            height: 100vh;
+            min-width: 80px;
+            display: inline-block; 
+        }
+
+        .navbar {
+            min-width: 80px;
+        }
+        main {
+            width: 90%;
+            height: 100vh;
+            display: inline-block;
+        }
+
+        div .borderIn {
+            border-radius: 5px;
+            border-style: none;
+        }
+
+        ul li a {
+            height: 60px;
+            /* background-color: aqua; */
+            display: block;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #000;
+        }
+
+        ul li a.active {
+            background-color: #0a5fc0;
+            border-radius: 20px;
+            color: white;
+        }
+
+        .card {
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body{
+            overflow:;
+            width: 100%;
+
+        }
+
+        table .id{
+            background-color: #0a5fc0;
+        }
+
+        .table > thead{
+             background-color: #0a5fc0;
+             text-align: center;
+             color: white;
+        }
+        
+
+        .table > thead{
+             background-color: #0a5fc0;
+             text-align: center;
+             color: white;
+        }
+
+        .tfoot {
+            background-color: #0a5fc0;
+             text-align: center;
+             color: white; 
+        }
+
+        button {
+            border: 5px;
+            color: white;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #0a5fc2;
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+        }
+
+        .button:hover {
+             background-color: #0a5fc0; 
+            color: white;
+            }
+
+
+        .btnapprove {
+            background-color: green;
+        }
+
+        .btndel {
+            background-color: red;
+        }
+
+        .btnReply {
+            background-color: darkcyan;
+        }
+
+        .btnView {
+            background-color: blue;
+        }
+        .btnClose {
+            background-color: red;
+            color: white;
+        }
+
+        span .id {
+            align-items: center;
+
+            display: inline-block;
+        }
+
+        .table > thead > tr > td{
+            background-color: #0a5fc0;
+
+            color: white;
+        }
+     
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col col-2 border">
+                <nav class="d-flex flex-column justify-content-between side-bar">
+                    <ul class="list-unstyled">
+                        <div class="d-flex justify-content-center my-5">
+                           <a href="dashboard.php"> <img src="../assets/logo4.png" height="155" alt=""></a>
+                        </div>
+                        <hr>
+                        <li>
+                            <a href="dashboard.php" class="nav-item ">
+                                <span class="mx-3"><i class="fa-solid fa-gauge"></i> Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="pending.php" class="nav-item">
+                                <span class="mx-3"><i class="fa-solid fa-pen-to-square"></i> Pending</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="history.php" class="nav-item">
+                                <span class="mx-3"><i class="fa-solid fa-book"></i> History</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="approve_track.php" class="nav-item active">
+                                <span class="mx-3"><i class="fa-solid fa-calendar"></i> Approval Record</span>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                    <ul class="list-unstyled">
+                        <hr>
+                        <li>
+                            <a href="../controller/logout.php" class="text-danger">
+                                <span class="ms-3"><i class="fa-solid fa-right-from-bracket"></i> logout</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col borderIn">
+                <nav class="navbar" style="height: 80px;">
+                    <div class="container-fluid position-relative">
+                        <span class="position-absolute end-0 mx-3 fs-5"><i class="fa-solid fa-user"></i>
+                            <?php
+                            echo $_SESSION["username"];
+                            ?>
+                        </span>
+                    </div>
+                </nav>
+
+                <div class="my-3">
+                    <div class="row justify-content-center">
+                     <table class="table" id="example" >
+                                <span class="">
+                                <h1>
+                                    Monthly Summary Report
+                                </h1>
+                                <hr>
+                                </span>
+                        <thead class="text-white">
+                            <tr>
+                                <th>Month</th>
+                                <th>Create</th>
+                                <th>Suspend</th>
+                                <th>Delete</th>
+                                <th>Reset Password</th>
+                                <th>Transfer</th>
+                                <th>Change of Status</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <h3>
+                            <?php
+
+                            $sql = "SELECT * FROM request WHERE status = 'Approved' ORDER BY created_at";
+                            $result = $conn->query($sql);
+
+                            if ($result->num_rows > 0) {
+                                // output data of each row
+                                while ($row = $result->fetch_assoc()) {
+                            ?>
+                        </h3>
+                            <tr>
+                                <td>
+                                    <?= $row['id'] ?>
+                                </td>
+                                <td>
+                                    <?= $row['firstname'] . ' ' . $row['lastname'] ?>
+                                </td>
+                                <td>
+                                    <?= $row['request'] ?>
+                                </td>
+                                <td>
+                                    <?php
+                                    $timestamp = strtotime($row['created_at']);
+                                    echo date("M j Y", $timestamp);
+                                    ?>
+                                </td>
+
+                            </tr>
+
+
+                            <?php
+                                }
+                            }
+
+                            ?>
+
+                       </tbody>
+
+                        <tbody>
+                            <tfoot></tfoot>
+                                 <tr>
+                                <th>Month</th>
+                                <th>Create</th>
+                                <th>Suspend</th>
+                                <th>Delete</th>
+                                <th>Reset Password</th>
+                                <th>Transfer</th>
+                                <th>Change of Status</th>
+                                <th>Total</th>
+                            </tr>
+                            </tfoot>
+                           
+                        </tbody>
+
+ 
+                    </table>
+                        
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
+<!-- DataTables -->
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../zoom.min.js"></script>
+
+<script>
+
+$(document).ready(function() {
+    $('#example').DataTable( {
+
+        } );
+
+
+    $(".nav-item").on("click", function () {
+        $(".nav-item.active").removeClass("active");
+        $(this).addClass("active");
+    });
+
+
+    $(document).ready(function() {
+    $('#example').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ]
+    } );
+} );
+    // $(".hide-nav").click(function () {
+    //     $("nav").toggleClass("d-none");
+    // });
+</script>
+
+</html>

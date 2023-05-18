@@ -1,0 +1,12 @@
+                <div class="<?php if(isset($_GET['s'])){echo 'alert alert-success';}?>" role="alert">
+                    <?php
+
+                    if(isset($_GET['s'])){
+                        $a = $_GET['s'];
+                        if($a==1){
+                             echo 'Insert Successful!';
+                         }
+                        }
+                    ?>
+
+                </div>
